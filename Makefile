@@ -10,6 +10,10 @@ Scan:
 	gcc SCAN.c -o SCAN.o
 	./SCAN.o
 
+C-Scan:
+	gcc C-SCAN.c -o C-SCAN.o
+	./C-SCAN.o
+
 Look:
 	gcc LOOK.c -o LOOK.o
 	./LOOK.o
