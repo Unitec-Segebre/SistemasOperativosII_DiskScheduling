@@ -6,7 +6,7 @@
 #define HEADSTART 		53
 #define CYLINDERAMOUNT	200
 
-int getNextPosition(int* queue, char* done, int queueLength, int* current, char direction);
+int getNextPosition(int* queue, char* done, int queueLength, int* current, char* direction);
 int main(int argc, char const *argv[])
 {
 	int queue[QUEUESIZE] = {98, 183, 37, 122, 14, 124, 65, 67};
@@ -15,24 +15,28 @@ int main(int argc, char const *argv[])
 	int totalHeadMovement = 0;
 	int currentHeadPos = HEADSTART;
 	char direction = 0;
-	while(int i = 0; i < QUEUESIZE; i++){
-		totalHeadMovement += getShortestSeekTime(queue, done, QUEUESIZE, &currentHeadPos);
+	for(int i = 0; i < QUEUESIZE; i++){
+		totalHeadMovement += getNextPosition(queue, done, QUEUESIZE, &currentHeadPos, &direction);
 	}
 	printf("Total Head Movement: %d\n", totalHeadMovement);
 	return 0;
 }
 
-int getNextPosition(int* queue, char* done, int queueLength, int* current, char direction){
+int getNextPosition(int* queue, char* done, int queueLength, int* current, char* direction){
 	int shortestLength = INT_MAX;
 	int indexToMark = -1;
 	int previousHeadPos = *current;
 	for (int i = 0; i < queueLength; i++)
 	{
-		if(!done[i] && queue[i](direction?<:>)*previousHeadPos abs(previousHeadPos-queue[i]) < shortestLength){
+		if(!done[i] && ((*direction && queue[i]>=previousHeadPos) || (!*direction && queue[i]<previousHeadPos)) && abs(previousHeadPos-queue[i]) < shortestLength){
 			shortestLength = abs(previousHeadPos-queue[i]);
 			*current = queue[i];
 			indexToMark = i;
 		}
+	}
+	if(indexToMark == -1){
+		*direction = !*direction;
+		return getNextPosition(queue, done, queueLength, current, direction);
 	}
 	done[indexToMark] = 1;
 	return abs(previousHeadPos - *current);
