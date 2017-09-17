@@ -18,5 +18,9 @@ Look:
 	gcc LOOK.c -o LOOK.o
 	./LOOK.o
 
+C-Look:
+	gcc C-LOOK.c -o C-LOOK.o
+	./C-LOOK.o
+
 clean:
 	rm *.o
